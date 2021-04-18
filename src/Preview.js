@@ -14,6 +14,9 @@ import CropIcon from "@material-ui/icons/Crop";
 import TimerIcon from "@material-ui/icons/Timer";
 import SidebarIcon from "./SidebarIcon";
 import SendIcon from "@material-ui/icons/Send";
+import { v4 as uuid } from "uuid";
+import { db, storage } from "./firebase";
+import firebase from "firebase";
 
 const useStyles = makeStyles({
   closeIcon: {
@@ -37,6 +40,34 @@ const Preview = () => {
   const closePreview = () => {
     dispatch(resetCameraImage());
   };
+  const sendPost = () => {
+    const id = uuid();
+    const uploadTask = storage
+      .ref(`posts/${id}`)
+      .putString(cameraImage, "data_url");
+    uploadTask.on(
+      "state_changed",
+      null,
+      (error) => {
+        console.log(error);
+      },
+      () => {
+        storage
+          .ref("posts")
+          .child(id)
+          .getDownloadURL()
+          .then((url) => {
+            db.collection("posts").add({
+              imageUrl: url,
+              username: "Pawan",
+              read: false,
+              timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+            });
+            history.push("/chats");
+          });
+      }
+    );
+  };
   return (
     <div className="preview">
       <IconButton onClick={closePreview} className={classes.closeIcon}>
@@ -52,7 +83,7 @@ const Preview = () => {
         <SidebarIcon Icon={TimerIcon} />
       </div>
       <img src={cameraImage} alt="snapchat" />
-      <div className="preview__footer">
+      <div className="preview__footer" onClick={sendPost}>
         <h2>Send Now</h2>
         <SendIcon />
       </div>
