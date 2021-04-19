@@ -35,17 +35,17 @@ const Chat = ({ profilePic, username, timestamp, imageUrl, read, id }) => {
     }
   };
   return (
-    <div className="chat">
+    <div className="chat" onClick={open}>
       <Avatar src={profilePic} className={classes.avatar} />
       <div className="chat__info">
         <h4>{username}</h4>
         <p>
-          Tap to view -
+          {!read && "Tap to view -"}
           <ReactTimeago date={new Date(timestamp?.toDate())} />
         </p>
       </div>
       {!read && (
-        <IconButton className={classes.redIcon} onClick={open}>
+        <IconButton className={classes.redIcon}>
           <StopRoundedIcon />
         </IconButton>
       )}
