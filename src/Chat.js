@@ -3,6 +3,10 @@ import React from "react";
 import StopRoundedIcon from "@material-ui/icons/StopRounded";
 import "./Chat.css";
 import ReactTimeago from "react-timeago";
+import { useDispatch } from "react-redux";
+import { selectImage } from "./reducers/ImageSlice";
+import { db } from "./firebase";
+import { useHistory } from "react-router";
 
 const useStyles = makeStyles({
   avatar: {
@@ -16,6 +20,20 @@ const useStyles = makeStyles({
 
 const Chat = ({ profilePic, username, timestamp, imageUrl, read, id }) => {
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const open = () => {
+    if (!read) {
+      dispatch(selectImage(imageUrl));
+      db.collection("posts").doc(id).set(
+        {
+          read: true,
+        },
+        { merge: true }
+      );
+      history.push("/chats/view");
+    }
+  };
   return (
     <div className="chat">
       <Avatar src={profilePic} className={classes.avatar} />
@@ -27,7 +45,7 @@ const Chat = ({ profilePic, username, timestamp, imageUrl, read, id }) => {
         </p>
       </div>
       {!read && (
-        <IconButton className={classes.redIcon}>
+        <IconButton className={classes.redIcon} onClick={open}>
           <StopRoundedIcon />
         </IconButton>
       )}
