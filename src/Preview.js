@@ -17,6 +17,7 @@ import SendIcon from "@material-ui/icons/Send";
 import { v4 as uuid } from "uuid";
 import { db, storage } from "./firebase";
 import firebase from "firebase";
+import { selectUser } from "./reducers/ImageSlice";
 
 const useStyles = makeStyles({
   closeIcon: {
@@ -32,6 +33,7 @@ const Preview = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const classes = useStyles();
+  const user = useSelector(selectUser);
   useEffect(() => {
     if (!cameraImage) {
       history.replace("/");
@@ -59,8 +61,9 @@ const Preview = () => {
           .then((url) => {
             db.collection("posts").add({
               imageUrl: url,
-              username: "Pawan",
+              username: user.username,
               read: false,
+              profilePic: user.profilePic,
               timestamp: firebase.firestore.FieldValue.serverTimestamp(),
             });
             history.push("/chats");

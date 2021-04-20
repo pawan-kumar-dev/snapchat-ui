@@ -1,21 +1,44 @@
-import { Avatar, makeStyles } from "@material-ui/core";
+import { Avatar, IconButton, makeStyles } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import SearchIcon from "@material-ui/icons/Search";
 import ChatBubbleIcon from "@material-ui/icons/ChatBubble";
 import "./Chats.css";
-import { db } from "./firebase";
+import { auth, db } from "./firebase";
 import Chat from "./Chat";
+import { useDispatch, useSelector } from "react-redux";
+import { selectUser } from "./reducers/ImageSlice";
+import RadioButtonCheckedIcon from "@material-ui/icons/RadioButtonChecked";
+import { useHistory } from "react-router";
+import { resetCameraImage } from "./reducers/cameraSlice";
 
 const useStyles = makeStyles({
   avatar: {
     height: "25px",
     width: "25px",
+    cursor: "pointer",
+  },
+  takeSnap: {
+    position: "absolute",
+    backgroundColor: "white",
+    borderRadius: "200px",
+    color: "gray",
+    fontSize: "40px",
+    bottom: 0,
+    left: "50%",
+    padding: "0",
+    transform: "translate(-50%, -50%)",
+    "&:hover": {
+      opacity: "0.5",
+    },
   },
 });
 
 const Chats = () => {
   const classes = useStyles();
+  const user = useSelector(selectUser);
   const [post, setPost] = useState([]);
+  const dispatch = useDispatch();
+  const history = useHistory();
   useEffect(() => {
     db.collection("posts")
       .orderBy("timestamp", "desc")
@@ -28,10 +51,18 @@ const Chats = () => {
         );
       });
   }, []);
+  const takeSnap = () => {
+    dispatch(resetCameraImage());
+    history.push("/");
+  };
   return (
     <div className="chats">
       <div className="chats__header">
-        <Avatar className={classes.avatar} />
+        <Avatar
+          src={user.profilePic}
+          onClick={() => auth.signOut()}
+          className={classes.avatar}
+        />
         <div className="chats__search">
           <SearchIcon />
           <input type="text" placeholder="Friends" />
@@ -56,6 +87,9 @@ const Chats = () => {
           )
         )}
       </div>
+      <IconButton className={classes.takeSnap} onClick={takeSnap}>
+        <RadioButtonCheckedIcon fontSize="large" />
+      </IconButton>
     </div>
   );
 };

@@ -6,3 +6,11 @@
   justify-content: center;
   height: 100vh;
 }
+.app__logo {
+  object-fit: contain;
+  height: 100px;
+}
+.app__bodyBackground {
+  background-color: white;
+  height: 400px;
+}
