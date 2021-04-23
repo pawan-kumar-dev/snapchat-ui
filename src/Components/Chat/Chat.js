@@ -4,8 +4,8 @@ import StopRoundedIcon from "@material-ui/icons/StopRounded";
 import "./Chat.css";
 import ReactTimeago from "react-timeago";
 import { useDispatch } from "react-redux";
-import { selectImage } from "./reducers/ImageSlice";
-import { db } from "./firebase";
+import { selectImage } from "../../reducers/ImageSlice";
+import { db } from "../../Configs";
 import { useHistory } from "react-router";
 
 const useStyles = makeStyles({

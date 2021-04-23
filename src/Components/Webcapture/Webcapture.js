@@ -8,7 +8,7 @@ import {
   useTheme,
 } from "@material-ui/core";
 import { useDispatch } from "react-redux";
-import { setCameraImage } from "./reducers/cameraSlice";
+import { setCameraImage } from "../../reducers/cameraSlice";
 import { useHistory } from "react-router";
 import "./Webcapture.css";
 

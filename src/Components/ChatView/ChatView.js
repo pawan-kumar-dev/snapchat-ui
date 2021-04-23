@@ -2,7 +2,7 @@ import React, { useCallback, useEffect } from "react";
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router";
-import { selectSelectedImage } from "./reducers/ImageSlice";
+import { selectSelectedImage } from "../../reducers/ImageSlice";
 import "./ChatView.css";
 
 const ChatView = () => {

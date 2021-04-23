@@ -1,7 +1,7 @@
 .chats {
   position: relative;
-  height: 400px;
-  width: 250px;
+  height: 720px;
+  width: 480px;
 }
 .chats__header {
   display: flex;
@@ -34,7 +34,7 @@
   color: white !important;
 }
 .chats__post {
-  height: 359px;
+  height: calc(100% - 50px);
   background-color: white;
   box-shadow: 1px -7px 7px -6px rgba(0, 0, 0, 0, 44);
   margin-top: -9px;
@@ -48,4 +48,10 @@
 .chats__post {
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+@media (max-width: 620px) {
+  .chats {
+    width: 100%;
+    height: 100vh;
+  }
 }

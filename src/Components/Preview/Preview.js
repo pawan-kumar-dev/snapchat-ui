@@ -2,7 +2,10 @@ import { IconButton, makeStyles } from "@material-ui/core";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
-import { resetCameraImage, selectCameraImage } from "./reducers/cameraSlice";
+import {
+  resetCameraImage,
+  selectCameraImage,
+} from "../../reducers/cameraSlice";
 import CloseIcon from "@material-ui/icons/Close";
 import "./Preview.css";
 import TextFieldsIcon from "@material-ui/icons/TextFields";
@@ -12,12 +15,12 @@ import MusicNoteIcon from "@material-ui/icons/MusicNote";
 import AttachFileIcon from "@material-ui/icons/AttachFile";
 import CropIcon from "@material-ui/icons/Crop";
 import TimerIcon from "@material-ui/icons/Timer";
-import SidebarIcon from "./SidebarIcon";
+import SidebarIcon from "../SidebarIcon/SidebarIcon";
 import SendIcon from "@material-ui/icons/Send";
 import { v4 as uuid } from "uuid";
-import { db, storage } from "./firebase";
+import { db, storage } from "../../Configs";
 import firebase from "firebase";
-import { selectUser } from "./reducers/ImageSlice";
+import { selectUser } from "../../reducers/ImageSlice";
 
 const useStyles = makeStyles({
   closeIcon: {

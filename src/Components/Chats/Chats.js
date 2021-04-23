@@ -3,13 +3,13 @@ import React, { useEffect, useState } from "react";
 import SearchIcon from "@material-ui/icons/Search";
 import ChatBubbleIcon from "@material-ui/icons/ChatBubble";
 import "./Chats.css";
-import { auth, db } from "./firebase";
-import Chat from "./Chat";
+import { auth, db } from "../../Configs";
+import { Chat } from "../index";
 import { useDispatch, useSelector } from "react-redux";
-import { selectUser } from "./reducers/ImageSlice";
+import { selectUser } from "../../reducers/ImageSlice";
 import RadioButtonCheckedIcon from "@material-ui/icons/RadioButtonChecked";
 import { useHistory } from "react-router";
-import { resetCameraImage } from "./reducers/cameraSlice";
+import { resetCameraImage } from "../../reducers/cameraSlice";
 
 const useStyles = makeStyles({
   avatar: {
@@ -39,6 +39,7 @@ const Chats = () => {
   const [post, setPost] = useState([]);
   const dispatch = useDispatch();
   const history = useHistory();
+  const [friend, setFriend] = useState("");
   useEffect(() => {
     db.collection("posts")
       .orderBy("timestamp", "desc")
@@ -55,6 +56,9 @@ const Chats = () => {
     dispatch(resetCameraImage());
     history.push("/");
   };
+  const filteredChat = post.filter((p) =>
+    p.data.username.toLowerCase().includes(friend.toLowerCase())
+  );
   return (
     <div className="chats">
       <div className="chats__header">
@@ -65,12 +69,17 @@ const Chats = () => {
         />
         <div className="chats__search">
           <SearchIcon />
-          <input type="text" placeholder="Friends" />
+          <input
+            type="text"
+            placeholder="Friends"
+            value={friend}
+            onChange={(e) => setFriend(e.target.value)}
+          />
         </div>
         <ChatBubbleIcon />
       </div>
       <div className="chats__post">
-        {post.map(
+        {filteredChat.map(
           ({
             id,
             data: { profilePic, username, timestamp, imageUrl, read },

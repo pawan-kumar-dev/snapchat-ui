@@ -1,9 +1,9 @@
 import { Button } from "@material-ui/core";
 import React from "react";
 import "./Login.css";
-import { auth, provider } from "./firebase";
+import { auth, provider } from "../../Configs";
 import { useDispatch } from "react-redux";
-import { login } from "./reducers/ImageSlice";
+import { login } from "../../reducers/ImageSlice";
 
 const Login = () => {
   const dispatch = useDispatch();
